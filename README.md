@@ -65,3 +65,48 @@ for j in fio:
 print(res+'.',k)
 ```
 ![Картинка 5](./images/lab01/05.png)
+
+## Задание 6
+```
+n = int(input())
+offline_count = 0
+online_count = 0
+for i in range(n):
+    sub = input().split()
+    if sub[-1] == 'True':online_count += 1
+    else:offline_count += 1
+print(online_count,offline_count)
+```
+![Картинка 6](./images/lab01/06.png)
+
+## Задание 7
+```
+from string import *
+sub='thisisabracadabraHt1eadljjl12ojh.'
+abc1=ascii_uppercase
+abc2=ascii_lowercase
+count_first_letter=0
+result=''
+count_second_letter =0 
+ind1=-1
+ind2=-1
+trueresult=''
+
+for i in range(len(sub)-1):
+    if sub[i] in ascii_uppercase:
+        count_first_letter+=1
+    if sub[i] in ascii_uppercase and count_first_letter==1:
+        result+=sub[i]
+        ind1=i
+    if sub[i] in '0123456789' and sub[i+1] in abc2 :
+        count_second_letter+=1
+    if count_second_letter==1 and sub[i] in '0123456789' and sub[i+1] in abc2 :
+        ind2=i+1
+        result+=sub[i+1]
+for i in range(ind1,len(sub),ind2-ind1):
+    trueresult+=sub[i]
+print(trueresult)
+```
+![Картинка 7](./images/lab01/07.png)
+
+
