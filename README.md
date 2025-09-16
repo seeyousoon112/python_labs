@@ -65,6 +65,24 @@ for j in fio:
 print(res+'.',k)
 ```
 ![Картинка 5](./images/lab01/05.png)
+```
+name = str(input('ФИО: '))
+abc1='ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ'
+l=0
+count=0
+letters=[]
+m=-10**10
+for r in range(len(name)):
+    if name[r] in abc1:
+        count+=1
+        letters+=[name[r]]
+        while count>3:
+            if name[l] in abc1:
+                count-=1
+            l+=1
+    m=max(m,r-l+1)
+print(m,*letters,end='.')
+```
 
 ## Задание 6
 ```
