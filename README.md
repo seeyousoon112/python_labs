@@ -129,19 +129,24 @@ print(trueresult)
 
 ## Лабораторная работа 2
 # Задание 1
+# min_max
 ```
 def f(n):
     a=[x for x in n]
     return min(a),max(a)
 arr=[1.5, 2,-3.1]
 print(f(arr))
-
+```
+# unique_sorted
+```
 def f(n):
     a=sorted(set(x for x in n))
     return a
 arr=[1.0,1,2.5,2.5,0]
 print(f(arr))
-
+```
+# flatten
+```
 def f(n):
     res=[]
     for x in n:
@@ -154,6 +159,32 @@ print(f(arr))
 ![Картинка 7](./images/lab02/01lab2.png)
 
 # Задание 2
+
+# transpose
+```
+def f(n):
+    return [[x] for x in n[0]]
+arr=[[1,2,3]]
+print(f(arr))
+```
+# row_sums
+```
+def f(n):
+    res=[sum(x) for x in n]
+    return res
+test=[[1,2,3],[4,5,6]]
+print(f(test))
+```
+# col_sums
+```
+def f(n):
+    return [sum(x) for x in zip(*n)]
+arr=[[1,2,3],[4,5,6]]
+print(f(arr))
+```
+![Картинка 8](./images/lab02/B.png)
+
+
 
 
 
