@@ -12,7 +12,7 @@ print('Привет, ', f'{name}''!' ' Через год тебе будет ' f
 ![Картинка 1](./images/lab01/01.png)
 
 ## Задание 2
-```
+```pyton
 first_num=float(input().replace(',','.'))
 second_num=float(input().replace(',','.'))
 sum=first_num+second_num
