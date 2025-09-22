@@ -12,7 +12,7 @@ print('Привет, ', f'{name}''!' ' Через год тебе будет ' f
 ![Картинка 1](./images/lab01/01.png)
 
 ## Задание 2
-```python
+```
 first_num=float(input().replace(',','.'))
 second_num=float(input().replace(',','.'))
 sum=first_num+second_num
@@ -22,7 +22,7 @@ print(sum,round(avg,2))
 ![Картинка 2](./images/lab01/02.png)
 
 ## Задание 3
-```python
+```
 price=float(input())
 discount=float(input())
 vat=float(input())
@@ -34,7 +34,7 @@ print('База после скидки: 'f'{base:.2f}'' ₽', 'НДС: 'f'{vat_
 ![Картинка 3](./images/lab01/03.png)
 
 ## Задание 4
-```python
+```
 minutes=int(input())
 count=0
 hours=(minutes-minutes%60)//60
@@ -42,7 +42,7 @@ resmin=minutes%60
 result=f'{str(hours)}' + ':' + f'{str(resmin)}'
 print(result)
 ```
-```python
+```
 m = int(input().strip())
 hours = m // 60
 minutes = m % 60
@@ -52,7 +52,7 @@ print(f"{hours}:{minutes:02d}")
 ![Картинка 4](./images/lab01/044.png)
 
 ## Задание 5
-```python
+```
 fio=str(input())
 res=''
 for i in range(len(fio)-1):
@@ -65,7 +65,7 @@ for j in fio:
 print(res+'.',k)
 ```
 ![Картинка 5](./images/lab01/05.png)
-```python
+```
 name = str(input('ФИО: '))
 abc1='ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ'
 l=0
@@ -85,7 +85,7 @@ print(m,*letters,end='.')
 ```
 
 ## Задание 6
-```python
+```
 n = int(input())
 offline_count = 0
 online_count = 0
@@ -98,7 +98,7 @@ print(online_count,offline_count)
 ![Картинка 6](./images/lab01/06.png)
 
 ## Задание 7
-```python
+```
 from string import *
 sub='thisisabracadabraHt1eadljjl12ojh.'
 abc1=ascii_uppercase
@@ -130,7 +130,7 @@ print(trueresult)
 ## Лабораторная работа 2
 # Задание 1
 # min_max
-```python
+```
 def f(n):
     a=[x for x in n]
     return min(a),max(a)
@@ -138,7 +138,7 @@ arr=[1.5, 2,-3.1]
 print(f(arr))
 ```
 # unique_sorted
-```python
+```
 def f(n):
     a=sorted(set(x for x in n))
     return a
@@ -146,7 +146,7 @@ arr=[1.0,1,2.5,2.5,0]
 print(f(arr))
 ```
 # flatten
-```python
+```
 def f(n):
     res=[]
     for x in n:
@@ -161,14 +161,14 @@ print(f(arr))
 # Задание 2
 
 # transpose
-```python
+```
 def f(n):
     return [[x] for x in n[0]]
 arr=[[1,2,3]]
 print(f(arr))
 ```
 # row_sums
-```python
+```
 def f(n):
     res=[sum(x) for x in n]
     return res
@@ -176,7 +176,7 @@ test=[[1,2,3],[4,5,6]]
 print(f(test))
 ```
 # col_sums
-```python
+```
 def f(n):
     return [sum(x) for x in zip(*n)]
 arr=[[1,2,3],[4,5,6]]
@@ -185,7 +185,7 @@ print(f(arr))
 ![Картинка 2](./images/lab02/B.png)
 
 # Задание 3
-```python
+```
 def f(records):
     result=[]
     for rec in records:
