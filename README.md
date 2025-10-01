@@ -229,9 +229,56 @@ test_cases = [
 print(f(test_cases))
 ```
 ![Картинка 3](./images/lab02/Clab.png)
-
-
-
+## Лабораторная работа 3
+# Задание A
+# normalize
+```python 
+def normalize(text: str, *, casefold: bool = True, yo2e: bool = True):
+    text=text.replace('ё','е').replace('Ё','Е')
+    text=text.replace('\t',' ').replace('\r',' ').replace('\n',' ')
+    text=text.split()
+    new_text=' '.join(text)
+    return new_text.strip().lower()
+test1="ПрИвЕт\nМИр\t"
+test2="ёжик, Ёлка"
+test3="Hello\r\nWorld"
+test4="  двойные   пробелы  "
+print(normalize(test1),normalize(test2),normalize(test3),normalize(test4),sep='\n')
+```
+![Картинка 1](./images/lab03/Alab1.png)
+# tokenize
+```python
+from re import *
+def tokenize(text):
+    pattern = (r'[a-zA-Zа-яА-ЯёЁ0-9]+([-][a-zA-Zа-яА-ЯёЁ0-9]+)*')
+    tokens = []
+    for match in finditer(pattern,text):
+        tokens.append(match.group())
+    return tokens
+test_cases = [
+    "привет мир",
+    "hello,world!!!",
+    "no-настоящему круто", 
+    "2025 год",
+    "emoji 💬 не слово"
+]
+for text in test_cases:
+    result = tokenize(text)
+    print(result)
+```
+![Картинка 2](./images/lab03/Alab2.png)
+# count_freq+top_n
+```python
+def count_freq(tokens: list[str]):
+    d={x:tokens.count(x) for x in set(tokens)}
+    return sorted(d.items(),key=lambda x:-x[1])
+test_case1 = (["a","b","a","c","b","a"])
+test_case2=["bb","aa","bb","aa","cc"]
+print(count_freq(test_case1),count_freq(test_case2))
+```
+![Картинка 3](./images/lab03/Alab3.png)
+# Задание B
+``````python
 
 
 
