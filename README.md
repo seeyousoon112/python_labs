@@ -278,7 +278,32 @@ print(count_freq(test_case1),count_freq(test_case2))
 ```
 ![Картинка 3](./images/lab03/Alab3.png)
 # Задание B
-``````python
+```py
+import sys
+from libs import text
+table_mode=True
+stroka = sys.stdin.readline()
+tokenized = text.tokenize(stroka)
+unique_words = text.count_freq(tokenized)
+result = text.count_freq(unique_words)
+top_words=result[:5]
+if table_mode:
+    max_word_ln=max(len(str(word[0][0])) for word in top_words)
+    max_width=max(max_word_ln,5)
+    print(f"\nТоп-5:")
+    print(f"| {'слово':{max_width}} | {'частота'} |")
+    print(f"|{'-' * (max_width + 2)}|---------|")
+    for word_row in top_words:
+        word=word_row[0][0]
+        gusi= word_row[0][1]
+        print(f"| {word:{max_width}} | {gusi:<7} |")
+else:
+    print(f"Топ-{5}:")
+    for string in result:
+        print(f'{string[0][0]}:{string[0][1]}')
+```
+![Картинка 4](./images/lab03/B.png)
+
 
 
 
