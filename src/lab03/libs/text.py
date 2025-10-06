@@ -1,3 +1,11 @@
+from re import *
+def tokenize(text):
+    pattern = (r'[a-zA-Zа-яА-ЯёЁ0-9]+([-][a-zA-Zа-яА-ЯёЁ0-9]+)*')
+    tokens = []
+    for match in finditer(pattern,text):
+        tokens.append(match.group())
+    return tokens
+
 def normalize(text: str, *, casefold: bool = True, yo2e: bool = True):
     if casefold:text=text.casefold()
     if yo2e:
@@ -6,9 +14,7 @@ def normalize(text: str, *, casefold: bool = True, yo2e: bool = True):
     text=text.split()
     new_text=' '.join(text)
     return new_text.strip()
-test1="ПрИвЕт\nМИр\t"
-test2="ёжик, Ёлка"
-test3="Hello\r\nWorld"
-test4="  двойные   пробелы  "
-print(normalize(test1),normalize(test2),normalize(test3),normalize(test4),sep='\n')
 
+def count_freq(tokens: list[str]):
+    d={x:tokens.count(x) for x in set(tokens)}
+    return sorted(d.items(),key=lambda x:-x[1])
