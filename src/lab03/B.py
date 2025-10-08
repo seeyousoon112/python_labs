@@ -1,5 +1,5 @@
 import sys
-from libs import text
+from lib import text
 table_mode=True
 stroka = sys.stdin.readline()
 tokenized = text.tokenize(stroka)
