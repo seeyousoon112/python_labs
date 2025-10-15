@@ -131,19 +131,27 @@ print(trueresult)
 # Задание 1
 # min_max
 ```python
-def f(n):
-    a=[x for x in n]
-    return min(a),max(a)
-arr1=[1.5, 2,-3.1]
-arr2=[42]
-arr3=[-5,-2,-9]
-arr4=[1.5,2,2.0,-3.1]
-print(f(arr1),f(arr2),f(arr3),f(arr4))
+arr1 = [3, -1, 5, 5, 0]
+arr2 = [42]
+arr3 = [-5, -2, -9]
+arr4 = [1.5, 2, 2.0, -3.1]
+arr5=[]
+def min_max(nums: list[float | int]):
+    n =[a for a in nums]
+    if len(n)!=0:
+        return min(n),max(n)
+    if len(n)==0:
+        raise ValueError
+print(min_max(arr1))
+print(min_max(arr2))
+print(min_max(arr3))
+print(min_max(arr4))
+#print(min_max(arr5))
 ```
 # unique_sorted
 ```python
-def f(n):
-    a=sorted(set(x for x in n))
+def unique_sorted(nums: list[float | int]):
+    a=sorted(set(x for x in nums))
     return a
 arr3=[1.0,1,2.5,2.5,0]
 arr2=[-1,-1,0,2,2]
@@ -153,16 +161,23 @@ print(f(arr1),f(arr2),f(arr3))
 ```
 # flatten
 ```python
-def f(n):
-    res=[]
-    for x in n:
-        for y in x:
-            res+=[y]
-    return res
-arr3=[[1],[],[2,3]]
-arr2=[[1,2],(3,4,5)]
-arr1=[[1,2],[3,4]]
-print(f(arr1),f(arr2),f(arr3))
+array1 = [[1, 2], [3, 4]]
+array2 = [[1, 2], (3, 4, 5)]
+array3 = [[1], [], [2, 3]]
+array4=[[1, 2], "ab"]
+def flatten(mat: list[list | tuple]):
+    answer = []
+    for n in mat:
+        if isinstance(n,list) or isinstance(n,tuple):
+            for y in n:
+                answer += [y]
+        else:
+            raise TypeError
+    return answer
+print(flatten(array1))
+print(flatten(array2))
+print(flatten(array3))
+print(flatten(array4))
 ```
 ![Картинка 1](./images/lab02/01lab2.png)
 
@@ -170,39 +185,64 @@ print(f(arr1),f(arr2),f(arr3))
 
 # transpose
 ```python
-def f(matrix):
-    return [list(row) for row in zip(*matrix)]
-arr1=[[1,2,3]]
-arr2=[[1],[2],[3]]
-arr3=[[1,2],[3,4]]
-print(f(arr3),f(arr2),f(arr1))
+def transpose(mat: list[list[float | int]]):
+    res=[list(x) for x in zip(*mat)]
+    for row in mat:
+        if len(mat[0])!=len(row):
+            raise ValueError
+    return res
+array1=[[1,2,3]]
+array2=[[1],[2],[3]]
+array3=[[1,2],[3,4]]
+array4=[]
+array5=[[1, 2], [3]]
+print(transpote(array1))
+print(transpote(array2))
+print(transpote(array3))
+print(transpote(array4))
+print(transpote(array5))
+
 ```
 # row_sums
 ```python
 
-def f(n):
-    res=[sum(x) for x in n]
+array1=[[1,2,3],[4,5,6]]
+array2=[[-1,1],[10,-10]]
+array3=[[0, 0], [0, 0]]
+array4=[[1, 2], [3]]
+def row_sums(mat: list[list[float | int]]):
+    res=[sum(x) for x in mat]
+    for row in mat:
+        if len(mat[0])!=len(row):
+            raise ValueError
     return res
-arr1=[[1,2,3],[4,5,6]]
-arr2=[[-1,1],[10,-10]]
-
-print(f(arr1),f(arr2))
+print(row_sums(array1))
+print(row_sums(array2))
+print(row_sums(array3))
+print(row_sums(array4))
 ```
 # col_sums
 ```python
-def f(n):
-    return [sum(x) for x in zip(*n)]
-arr1=[[1,2,3],[4,5,6]]
-arr2=[[-1,1],[10,-10]]
-arr3=[[0,0],[0,0]]
-print(f(arr1),f(arr2),f(arr3))
-
+array1=[[1,2,3],[4,5,6]]
+array2=[[-1,1],[10,-10]]
+array3=[[0,0],[0,0]]
+array4=[[1, 2], [3]]
+def col_sums(mat: list[list[float | int]]):
+    res=[sum(x) for x in zip(*mat)]
+    for row in mat:
+        if len(mat[0])!=len(row):
+            raise ValueError
+    return res
+print(col_sums(array1))
+print(col_sums(array2))
+print(col_sums(array3))
+print(col_sums(array4))
 ```
 ![Картинка 2](./images/lab02/B.png)
 
 # Задание 3
 ```python
-def f(records):
+format_record(records: tuple[str, str, float]) -> str
     result=[]
     for rec in records:
         fio,group,gpa = rec
@@ -226,24 +266,28 @@ test_cases = [
     ("Петров Пётр", "IKBO-12", 5.0),
     ("  cидорова  анна   сергеевна ", "ABB-01", 3.999)
 ]
-print(f(test_cases))
+print(format_records(test_cases))
 ```
 ![Картинка 3](./images/lab02/Clab.png)
 ## Лабораторная работа 3
 # Задание A
 # normalize
 ```python 
-def normalize(text: str, *, casefold: bool = True, yo2e: bool = True):
-    text=text.replace('ё','е').replace('Ё','Е')
-    text=text.replace('\t',' ').replace('\r',' ').replace('\n',' ')
-    text=text.split()
-    new_text=' '.join(text)
-    return new_text.strip().lower()
-test1="ПрИвЕт\nМИр\t"
-test2="ёжик, Ёлка"
-test3="Hello\r\nWorld"
-test4="  двойные   пробелы  "
-print(normalize(test1),normalize(test2),normalize(test3),normalize(test4),sep='\n')
+import re
+def normalize(text: str, *, casefold: bool = True, yo2e: bool = True): 
+    if casefold:
+        text = text.casefold()
+    if yo2e:
+        text = text.replace('ё', 'е').replace('Ё', 'Е')
+    pattern= (r'[a-zA-Zа-яА-ЯёЁ0-9]+([-][a-zA-Zа-яА-ЯёЁ0-9]+)*')
+    normalized = []
+    for match in re.finditer(pattern, text):
+        normalized.append(match.group())
+    return ' '.join(normalized).strip()
+test_cases = ["ПрИвЕт\nМИр\t","ёжик, Ёлка","Hello\r\nWorld","  двойные   пробелы  "]
+for test in test_cases:
+    result=normalize(test)
+    print(result)
 ```
 ![Картинка 1](./images/lab03/Alab1.png)
 # tokenize

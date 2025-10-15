@@ -1,14 +1,15 @@
-def normalize(text: str, *, casefold: bool = True, yo2e: bool = True):
-    if casefold:text=text.casefold()
+import re
+def normalize(text: str, *, casefold: bool = True, yo2e: bool = True): 
+    if casefold:
+        text = text.casefold()
     if yo2e:
-        text=text.replace('ё','е').replace('Ё','Е')
-    text=text.replace('\t',' ').replace('\r',' ').replace('\n',' ').replace('\\',' ').replace('\'',' ').replace('\"',' ').replace('\a',' ').replace('\b',' ').replace('\f',' ').replace('\v',' ')
-    text=text.split()
-    new_text=' '.join(text)
-    return new_text.strip()
-test1="ПрИвЕт\nМИр\t"
-test2="ёжик, Ёлка"
-test3="Hello\r\nWorld"
-test4="  двойные   пробелы  "
-print(normalize(test1),normalize(test2),normalize(test3),normalize(test4),sep='\n')
-
+        text = text.replace('ё', 'е').replace('Ё', 'Е')
+    pattern= (r'[a-zA-Zа-яА-ЯёЁ0-9]+([-][a-zA-Zа-яА-ЯёЁ0-9]+)*')
+    normalized = []
+    for match in re.finditer(pattern, text):
+        normalized.append(match.group())
+    return ' '.join(normalized).strip()
+test_cases = ["ПрИвЕт\nМИр\t","ёжик, Ёлка","Hello\r\nWorld","  двойные   пробелы  "]
+for test in test_cases:
+    result=normalize(test)
+    print(result)
