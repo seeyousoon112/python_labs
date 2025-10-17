@@ -324,7 +324,7 @@ print(count_freq(test_case1),count_freq(test_case2))
 # Задание B
 ```py
 import sys
-from libs import text
+from lib import text
 table_mode=True
 stroka = sys.stdin.readline()
 tokenized = text.tokenize(stroka)
@@ -349,6 +349,11 @@ else:
 ![Картинка 4](./images/lab03/B.png)
 
 ## Лабораторная работа #4
+# Все реализованные функции для работы с csv файлами:
+![Картинка 1](./images/lab04/realize%20of%20csv.png)
+# Все реализованные функции для работы со словами:
+![Картинка 2](./images/lab04/realize_func.png)
+
 # Задание A
 ```py
 import sys
@@ -398,7 +403,9 @@ if top_5:
     for i, (word, count) in enumerate(top_5):
         print(f"  {i+1}. '{word}': {count}")
 ```
-## (добавить фулл комменты)
+# на ввод заданию B был дан рассказ "Юшка" и вот что из этого вышло:
+![Картинка 3](./images/lab04/report.png)
+
 
 
 

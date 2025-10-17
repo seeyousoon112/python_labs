@@ -6,14 +6,17 @@ def tokenize(text):
         tokens.append(match.group())
     return tokens
 
-def normalize(text: str, *, casefold: bool = True, yo2e: bool = True):
-    if casefold:text=text.casefold()
+import re
+def normalize(text: str, *, casefold: bool = True, yo2e: bool = True): 
+    if casefold:
+        text = text.casefold()
     if yo2e:
-        text=text.replace('ё','е').replace('Ё','Е')
-    text=text.replace('\t',' ').replace('\r',' ').replace('\n',' ').replace('\\',' ').replace('\'',' ').replace('\"',' ').replace('\a',' ').replace('\b',' ').replace('\f',' ').replace('\v',' ')
-    text=text.split()
-    new_text=' '.join(text)
-    return new_text.strip()
+        text = text.replace('ё', 'е').replace('Ё', 'Е')
+    pattern= (r'[a-zA-Zа-яА-ЯёЁ0-9]+([-][a-zA-Zа-яА-ЯёЁ0-9]+)*')
+    normalized = []
+    for match in re.finditer(pattern, text):
+        normalized.append(match.group())
+    return ' '.join(normalized).strip()
 
 def count_freq(tokens: list[str]):
     d={x:tokens.count(x) for x in set(tokens)}
