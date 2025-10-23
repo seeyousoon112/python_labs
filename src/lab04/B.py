@@ -12,6 +12,7 @@ input_file = "src/data/input_test.txt"
 output_file = "src/data/report.csv" 
 encoding = "utf-8" 
 input_path = Path(input_file)
+output_path=Path(output_file)
 if not input_path.exists():
     print(f"Ошибка: Файл '{input_file}' не найден.")
     print("Пожалуйста, проверьте правильность пути к файлу.")
@@ -22,7 +23,7 @@ else:
         
     csv_rows = [[word, count] for word, count in sorted_words]
     csv_header = ('word', 'count')
-    write_csv(csv_rows, output_file,csv_header)
+    write_csv(csv_rows, output_path ,csv_header)
     total_words = sum(freq.values())
     unique_words = len(freq)
     print(f"Всего слов: {total_words}")
