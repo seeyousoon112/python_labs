@@ -8,8 +8,10 @@ def read_text(path: str | Path, encoding: str = "utf-8") -> str:
     return text
 
 def write_csv(rows: list[tuple | list], path: str | Path, 
-              header: tuple[str, ...] | None = None) -> None:
+              header: tuple[str, ...] | None = None,check_csv:bool=False) -> None:
     p = Path(path)
+    if p.suffix.lower()!='.csv':
+        raise ValueError(f'Файл должен иметь расширение .csv, получено: {p.suffix}')
 
     if rows:
         first_length = len(rows[0])
@@ -17,7 +19,7 @@ def write_csv(rows: list[tuple | list], path: str | Path,
             if len(row) != first_length:
                 raise ValueError(f"ошибка лютая")
 
-    with p.open(newline='', encoding='utf-8') as f:
+    with p.open('w',newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         
         if header is not None:

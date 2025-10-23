@@ -9,7 +9,7 @@ from lib.io_txt_csv import *
 from lib.text import *
 
 input_file = "src/data/input_test.txt" 
-output_file = "data/output.csv" 
+output_file = "src/data/report.csv" 
 encoding = "utf-8" 
 input_path = Path(input_file)
 if not input_path.exists():
@@ -22,7 +22,7 @@ else:
         
     csv_rows = [[word, count] for word, count in sorted_words]
     csv_header = ('word', 'count')
-        
+    write_csv(csv_rows, output_file,csv_header)
     total_words = sum(freq.values())
     unique_words = len(freq)
     print(f"Всего слов: {total_words}")
