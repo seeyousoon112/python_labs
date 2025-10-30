@@ -6,9 +6,6 @@ def read_text(path: str | Path, encoding: str = "utf-8") -> str:
     text = p.read_text(encoding=encoding)
     if encoding!='utf-8':
         raise UnicodeDecodeError('Проверьте кодировку')
-    if p.suffix.lower()!='.csv':
-        raise ValueError('Файл должен иметь расширение .csv, получено')
-    
     print(f"Прочитал {len(text)} символов")
     return text
 
