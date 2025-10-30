@@ -17,6 +17,8 @@ def csv_to_json(csv_path: str, json_path: str) -> None:
         raise FileNotFoundError('пожалуйста, проверьте путь к файлу')
     if input_path.suffix.lower()!='.csv':
         raise ValueError('Проверьте расширение файла')
+    if input_path.stat()==0:
+        raise ValueError ('В csv файле нет данных')
     data=[]
     with open(input_path,'r',encoding=encoding,newline='') as csv_file:
         csv_reader=csv.DictReader(csv_file)
@@ -37,6 +39,10 @@ def json_to_csv(json_path: str | Path, csv_path: str | Path, encoding: str = "ut
     output_path=Path(csv_path)
     if not input_path.exists():
         raise FileNotFoundError(f"JSON файл не найден: {json_path}")
+    if input_path.suffix.lower()!='.json':
+        raise ValueError('Проверьте расширение файла')
+    if input_path.stat()==0:
+        raise ValueError('В json файле нет данных')
     with open(input_path,'r', encoding=encoding) as json_file:
         data = json.load(json_file)
     with open(output_path, 'w', newline='', encoding=encoding) as csv_file:
