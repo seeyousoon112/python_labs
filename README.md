@@ -443,8 +443,12 @@ def csv_to_json(csv_path: str, json_path: str) -> None:
         print('Конвертация прошла успешно')
         print(f'Всего записей конвертировано:{len(data)}')
 csv_to_json('src/data/people1.csv','src/data/people1.json')
-
 ```
+## На ввод программе был дан .csv файл с данным содержимым:
+![Картинка 1](./images/lab05/csv->json.png)
+## результат записи: 
+![Картинка 2](./images/lab05/result_json.png)
+
 ## json -> csv
 ```py
 import json
@@ -469,6 +473,10 @@ def json_to_csv(json_path: str | Path, csv_path: str | Path, encoding: str = "ut
     print(f'Конвертировано {len(data)}')
 json_to_csv('src/data/people2.json','src/data/people2.csv')
 ```
+## На ввод программе был дан .json файл с данным содержимым:
+![Картинка 1](./images/lab05/result_json.png)
+## результат записи: 
+![Картинка 2](./images/lab05/csv->json.png)
 # csv -> xlsx
 ```py
 import csv
@@ -503,7 +511,12 @@ def csv_to_xlsx(csv_path: str | Path, xlsx_path: str | Path, encoding: str = "ut
     print(f"Успешно сконвертировано: {csv_path} -> {xlsx_path}")
 csv_to_xlsx('src/data/people.csv','src/data/test_for_xlsx.xlsx')
 ```
-## доделать скрины 
+## На ввод программе был дан .csv файл с данным содержимым:
+![Картинка 1](./images/lab05/csv->json.png)
+## В результате перезаписи получаем это:
+![Картинка 2](./images/lab05/excel_result.png)
+
+
 
 
 

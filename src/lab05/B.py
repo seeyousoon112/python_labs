@@ -19,7 +19,7 @@ def csv_to_xlsx(csv_path: str | Path, xlsx_path: str | Path, encoding: str = "ut
         raise FileNotFoundError(f"CSV файл не найден: {csv_path}")
     if csv_file.stat==0:
         raise ValueError('В csv файле нет данных')
-    if csv_file.suffix.lower!='.csv':
+    if csv_file.suffix.lower()!='.csv':
         raise ValueError('Проверьте расширение файла')
     
     workbook = Workbook()
