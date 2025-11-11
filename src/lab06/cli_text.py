@@ -27,11 +27,13 @@ def main():
     stats_parser.add_argument('--input', required=True, dest='input', help='Путь к входному файлу')
     stats_parser.add_argument('--top', type=int, default=5, help='Сколько слов показать (по умолчанию 5)')
     args=parser.parse_args()
-  
+    if args.command is None:
+        raise SystemExit(parser.format_help())
+
     if args.command == 'cat':
         in_path = Path(args.input)
         if not in_path.exists():
-        raise FileNotFoundError(f"Входной файл не найден: {args.input}")
+            raise FileNotFoundError(f"Входной файл не найден: {args.input}")
         with open(args.input, 'r', encoding='utf-8') as f:
             if args.n:
                 for i, line in enumerate(f, 1):
@@ -43,7 +45,7 @@ def main():
     elif args.command=='stats':
         in_path = Path(args.input)
         if not in_path.exists():
-        raise FileNotFoundError(f"Входной файл не найден: {args.input}")
+            raise FileNotFoundError(f"Входной файл не найден: {args.input}")
         with open(args.input, 'r', encoding='utf-8') as f:
             content = f.read()
             freqs = frequencies_from_text(content)

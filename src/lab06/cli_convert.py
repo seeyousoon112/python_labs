@@ -34,7 +34,7 @@ def main():
     csv2xlsx_parser=subparsers.add_parser(
         'csv2xlsx',
         help='Конвертировать CSV в XLSX',
-        description='Преобразовать CSV-файл в Excel (.xlsx)
+        description='Преобразовать CSV-файл в Excel'
     )
     csv2xlsx_parser.add_argument('--in', dest='input', required=True, help='Входной CSV-файл')
     csv2xlsx_parser.add_argument('--out', dest='output', required=True, help='Выходной XLSX-файл')

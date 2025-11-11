@@ -3,7 +3,7 @@
 # Лабораторная работа #6
 ## cli_text 
 ```python
-import argparse
+iimport argparse
 from pathlib import Path
 import sys 
 current_file = Path(__file__)
@@ -32,11 +32,13 @@ def main():
     stats_parser.add_argument('--input', required=True, dest='input', help='Путь к входному файлу')
     stats_parser.add_argument('--top', type=int, default=5, help='Сколько слов показать (по умолчанию 5)')
     args=parser.parse_args()
-  
+    if args.command is None:
+        raise SystemExit(parser.format_help())
+
     if args.command == 'cat':
         in_path = Path(args.input)
         if not in_path.exists():
-        raise FileNotFoundError(f"Входной файл не найден: {args.input}")
+            raise FileNotFoundError(f"Входной файл не найден: {args.input}")
         with open(args.input, 'r', encoding='utf-8') as f:
             if args.n:
                 for i, line in enumerate(f, 1):
@@ -48,7 +50,7 @@ def main():
     elif args.command=='stats':
         in_path = Path(args.input)
         if not in_path.exists():
-        raise FileNotFoundError(f"Входной файл не найден: {args.input}")
+            raise FileNotFoundError(f"Входной файл не найден: {args.input}")
         with open(args.input, 'r', encoding='utf-8') as f:
             content = f.read()
             freqs = frequencies_from_text(content)
@@ -62,7 +64,11 @@ if __name__=='__main__':
 ## -h сводка команд
 python3 -m src.lab06.cli_text -h        
 python3 -m src.lab06.cli_text cat -h    
-python3 -m src.lab06.cli_text stats -h  
+python3 -m src.lab06.cli_text stats -h 
+## сводка команд для проверки работоспособности программы: 
+python3 -m src.lab06.cli_text cat --input src/data/input.txt -n
+
+python3 -m src.lab06.cli_text stats --input src/data/input.txt --top 5
 # cli_converter
 ```py
 import argparse
@@ -101,7 +107,7 @@ def main():
     csv2xlsx_parser=subparsers.add_parser(
         'csv2xlsx',
         help='Конвертировать CSV в XLSX',
-        description='Преобразовать CSV-файл в Excel (.xlsx)
+        description='Преобразовать CSV-файл в Excel'
     )
     csv2xlsx_parser.add_argument('--in', dest='input', required=True, help='Входной CSV-файл')
     csv2xlsx_parser.add_argument('--out', dest='output', required=True, help='Выходной XLSX-файл')
@@ -132,6 +138,7 @@ def main():
 if __name__=='__main__':
     main()
     
+    
 ```
 ## -h сводка команд:
 python3 -m src.lab06.cli_convert -h
@@ -140,7 +147,13 @@ python3 -m src.lab06.cli_convert json2csv -h
 
 python3 -m src.lab06.cli_convert csv2json -h
 
-python3 -m src.lab06.cli_convert csv2xlsx -h
+python3 -m src.lab06.cli_convert csv2xlsx -
+## сводка команд для провреки работоспособности программы:
+python3 -m src.lab06.cli_convert json2csv --in src/data/people.json --out src/data/people.csv
+
+python3 -m src.lab06.cli_convert csv2json --in src/data/people.csv --out src/data/people.json
+
+python3 -m src.lab06.cli_convert csv2xlsx --in src/data/people.csv --out src/data/people.xlsx
 
 # Лабораторная работа #5
 ## csv -> json
