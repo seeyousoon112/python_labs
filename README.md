@@ -2,7 +2,7 @@
 
 # Лабораторная работа #6
 ## cli_text 
-```pyt
+```python
 import argparse
 from pathlib import Path
 import sys 
@@ -63,7 +63,7 @@ if __name__=='__main__':
 python3 -m src.lab06.cli_text -h        
 python3 -m src.lab06.cli_text cat -h    
 python3 -m src.lab06.cli_text stats -h  
-## cli_converter
+# cli_converter
 ```py
 import argparse
 from pathlib import Path
