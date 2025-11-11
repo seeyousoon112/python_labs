@@ -1,8 +1,8 @@
 # python_labs
 
-#Лабораторная работа #6
-##cli_text 
-```py
+# Лабораторная работа #6
+## cli_text 
+```pyt
 import argparse
 from pathlib import Path
 import sys 
