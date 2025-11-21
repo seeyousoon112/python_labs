@@ -1,32 +1,47 @@
 from re import *
+
+
 def tokenize(text):
-    pattern = (r'[a-zA-Zа-яА-ЯёЁ0-9]+([-][a-zA-Zа-яА-ЯёЁ0-9]+)*')
+    pattern = r"[a-zA-Zа-яА-ЯёЁ0-9]+([-][a-zA-Zа-яА-ЯёЁ0-9]+)*"
     tokens = []
-    for match in finditer(pattern,text):
+    for match in finditer(pattern, text):
         tokens.append(match.group())
     return tokens
 
+
 import re
-def normalize(text: str, *, casefold: bool = True, yo2e: bool = True): 
+
+
+def normalize(text: str, *, casefold: bool = True, yo2e: bool = True):
     if casefold:
         text = text.casefold()
     if yo2e:
-        text = text.replace('ё', 'е').replace('Ё', 'Е')
-    pattern= (r'[a-zA-Zа-яА-ЯёЁ0-9]+([-][a-zA-Zа-яА-ЯёЁ0-9]+)*')
+        text = text.replace("ё", "е").replace("Ё", "Е")
+    pattern = r"[a-zA-Zа-яА-ЯёЁ0-9]+([-][a-zA-Zа-яА-ЯёЁ0-9]+)*"
     normalized = []
     for match in re.finditer(pattern, text):
         normalized.append(match.group())
-    return ' '.join(normalized).strip()
+    return " ".join(normalized).strip()
+
 
 def count_freq(tokens: list[str]):
-    d={x:tokens.count(x) for x in set(tokens)}
-    return sorted(d.items(),key=lambda x:-x[1])
+    d = {x: tokens.count(x) for x in set(tokens)}
+    return sorted(d.items(), key=lambda x: (-x[1], x[0]))
 
-from collections import * 
+
+from collections import *
+
 
 def frequencies_from_text(text: str) -> dict[str, int]:
-    tokens=tokenize(normalize(text))
+    tokens = tokenize(normalize(text))
     return Counter(tokens)
 
+
 def sorted_word_counts(freq: dict[str, int]) -> list[tuple[str, int]]:
-    return sorted(freq.items(),key=lambda x: (-x[1],x[0]))
+    return sorted(freq.items(), key=lambda x: (-x[1], x[0]))
+
+
+def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
+    if n <= 0:
+        return []
+    return sorted_word_counts(freq)[:n]

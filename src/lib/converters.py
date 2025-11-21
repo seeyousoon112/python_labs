@@ -18,7 +18,7 @@ def csv_to_json(csv_path: str, json_path: str) -> None:
         raise FileNotFoundError("пожалуйста, проверьте путь к файлу")
     if input_path.suffix.lower() != ".csv":
         raise ValueError("Проверьте расширение файла")
-    if input_path.stat() == 0:
+    if input_path.stat().st_size == 0:
         raise ValueError("В csv файле нет данных")
     data = []
     with open(input_path, "r", encoding=encoding, newline="") as csv_file:
@@ -30,8 +30,6 @@ def csv_to_json(csv_path: str, json_path: str) -> None:
         print("Конвертация прошла успешно")
         print(f"Всего записей конвертировано:{len(data)}")
 
-
-csv_to_json("src/data/people1.csv", "src/data/people1.json")
 
 import json
 import csv
@@ -58,4 +56,29 @@ def json_to_csv(
     print(f"Конвертировано {len(data)}")
 
 
-json_to_csv("src/data/people2.json", "src/data/people2.csv")
+def csv_to_xlsx(
+    csv_path: str | Path, xlsx_path: str | Path, encoding: str = "utf-8"
+) -> None:
+
+    csv_file = Path(csv_path)
+    xlsx_file = Path(xlsx_path)
+
+    if not csv_file.exists():
+        raise FileNotFoundError(f"CSV файл не найден: {csv_path}")
+    if csv_file.stat == 0:
+        raise ValueError("В csv файле нет данных")
+    if csv_file.suffix.lower() != ".csv":
+        raise ValueError("Проверьте расширение файла")
+
+    workbook = Workbook()
+    worksheet = workbook.active
+    worksheet.title = "Data"
+
+    with open(csv_file, "r", encoding="utf-8", newline="") as csv_open:
+        csv_reader = csv.reader(csv_open)
+
+        for row_index, row in enumerate(csv_reader, 1):
+            for col_index, value in enumerate(row, 1):
+                worksheet.cell(row=row_index, column=col_index, value=value)
+    workbook.save(xlsx_file)
+    print(f"Успешно сконвертировано: {csv_path} -> {xlsx_path}")

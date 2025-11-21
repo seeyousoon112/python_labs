@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lab07"
+version = "2025.0.0"
+dependencies = [
+  "requests>=2.32",
+  "pandas>=2.2"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=5.0",
+  "black>=24.0",
+  "ruff>=0.6"
+]
+[tool.setuptools]
+   packages = ["lab07", "lib", "tests", "data"]
