@@ -1,4 +1,0 @@
-data
-lab07
-lib
-tests

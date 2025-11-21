@@ -1,5 +1,258 @@
 # python_labs
 
+# Лабораторная работа #7
+## test_text
+```python
+import pytest
+from lib.text import normalize
+from lib.text import tokenize
+from lib.text import count_freq
+from lib.text import top_n
+
+
+@pytest.mark.parametrize(
+    "text, expected",
+    [
+        ("Привет, Мир!", "привет мир"),
+        (" Ёлка-ёлка ", "елка-елка"),
+        ("", ""),
+        ("Hello World 123", "hello world 123"),
+        ("!@!###!", ""),
+        ("e-mail адрес", "e-mail адрес"),
+    ],
+)
+def test_normalize(text, expected):
+    assert normalize(text) == expected
+
+
+@pytest.mark.parametrize(
+    "text, expected",
+    [
+        ("Привет, Мир!", ["Привет", "Мир"]),
+        ("Hello World", ["Hello", "World"]),
+        ("", []),
+        ("!!!@@@###", []),
+        ("e-mail адрес", ["e-mail", "адрес"]),
+        ("123 456", ["123", "456"]),
+        ("word1 word2 word1", ["word1", "word2", "word1"]),
+    ],
+)
+def test_tokenize(text, expected):
+    assert tokenize(text) == expected
+
+
+@pytest.mark.parametrize(
+    "tokens, expected",
+    [
+        (["кот", "кот", "пёс"], [("кот", 2), ("пёс", 1)]),
+        (["a", "b", "c"], [("a", 1), ("b", 1), ("c", 1)]),
+        ([], []),
+        (["word", "word", "word"], [("word", 3)]),
+        (["a", "a", "b", "b", "c"], [("a", 2), ("b", 2), ("c", 1)]),
+    ],
+)
+def test_count_freq(tokens, expected):
+    result = count_freq(tokens)
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    "freq, n, expected",
+    [
+        ({"кот": 5, "пёс": 3, "мышь": 1}, 2, [("кот", 5), ("пёс", 3)]),
+        ({"banana": 2, "apple": 2, "cherry": 1}, 2, [("apple", 2), ("banana", 2)]),
+        ({"яблоко": 3, "банан": 3, "вишня": 2}, 2, [("банан", 3), ("яблоко", 3)]),
+        ({"a": 1, "b": 2}, 0, []),
+        ({"a": 1, "b": 2}, -1, []),
+        ({"a": 1, "b": 2}, 10, [("b", 2), ("a", 1)]),
+        ({}, 5, []),
+    ],
+)
+def test_top_n(freq, n, expected):
+    assert top_n(freq, n) == expected
+
+
+def test_top_n_same_frequency_alphabetical():
+    freq = {"zebra": 2, "apple": 2, "banana": 2}
+    result = top_n(freq, 3)
+    assert result == [("apple", 2), ("banana", 2), ("zebra", 2)]
+``` 
+## test_json_csv
+```python
+import pytest
+import json
+import csv
+from pathlib import Path
+from lib.converters import json_to_csv, csv_to_json
+
+DATA_DIR = Path(__file__).parent.parent / "data" / "samples"
+SAMPLE_JSON_PATH = DATA_DIR / "people.json"
+SAMPLE_CSV_PATH = DATA_DIR / "people.csv"
+
+
+class TestJsonToCsv:
+    def test_json_to_csv_success(self, tmp_path):
+
+        json_path = SAMPLE_JSON_PATH
+        csv_path = tmp_path / "output.csv"
+
+        json_to_csv(str(json_path), str(csv_path))
+
+        assert csv_path.exists()
+
+        with open(json_path, "r", encoding="utf-8") as f:
+            original_data = json.load(f)
+
+        with open(csv_path, "r", encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+
+        assert len(rows) == len(original_data)
+
+        expected_keys = {"name", "age", "city"}
+        assert set(rows[0].keys()) == expected_keys
+
+        assert rows[0]["name"] == original_data[0]["name"]
+        assert rows[0]["age"] == original_data[0]["age"]
+        assert rows[0]["city"] == original_data[0]["city"]
+
+    def test_json_to_csv_file_not_found(self, tmp_path):
+        json_path = tmp_path / "nonexistent.json"
+        csv_path = tmp_path / "output.csv"
+
+        with pytest.raises(FileNotFoundError, match="JSON файл не найден"):
+            json_to_csv(str(json_path), str(csv_path))
+
+    def test_json_to_csv_wrong_extension(self, tmp_path):
+        json_path = tmp_path / "test.txt"  # не .json
+        csv_path = tmp_path / "output.csv"
+
+        json_path.write_text("{}", encoding="utf-8")
+
+        with pytest.raises(ValueError, match="Проверьте расширение файла"):
+            json_to_csv(str(json_path), str(csv_path))
+
+    def test_json_to_csv_empty_file(self, tmp_path):
+        json_path = tmp_path / "empty.json"
+        csv_path = tmp_path / "output.csv"
+
+        json_path.write_text("", encoding="utf-8")
+
+        with pytest.raises(ValueError):
+            json_to_csv(str(json_path), str(csv_path))
+
+    def test_json_to_csv_invalid_json(self, tmp_path):
+        json_path = tmp_path / "invalid.json"
+        csv_path = tmp_path / "output.csv"
+
+        json_path.write_text("{invalid json}", encoding="utf-8")
+
+        with pytest.raises((ValueError, json.JSONDecodeError)):
+            json_to_csv(str(json_path), str(csv_path))
+
+
+class TestCsvToJson:
+
+    def test_csv_to_json_success(self, tmp_path):
+
+        csv_path = SAMPLE_CSV_PATH
+        json_path = tmp_path / "output.json"
+
+        csv_to_json(str(csv_path), str(json_path))
+
+        assert json_path.exists()
+
+        with open(csv_path, "r", encoding="utf-8", newline="") as f:
+            csv_reader = csv.DictReader(f)
+            original_rows = list(csv_reader)
+
+        with open(json_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        assert len(data) == len(original_rows)
+
+        expected_keys = {"name", "age", "city"}
+        assert set(data[0].keys()) == expected_keys
+
+        assert data[0]["name"] == original_rows[0]["name"]
+        assert data[0]["age"] == original_rows[0]["age"]
+        assert data[0]["city"] == original_rows[0]["city"]
+
+    def test_csv_to_json_file_not_found(self, tmp_path):
+        csv_path = tmp_path / "noneexist.csv"
+        json_path = tmp_path / "output.json"
+
+        with pytest.raises(FileNotFoundError):
+            csv_to_json(str(csv_path), str(json_path))
+
+    def test_csv_to_json_wrong_extension(self, tmp_path):
+        csv_path = tmp_path / "test.txt"  # не .csv
+        json_path = tmp_path / "output.json"
+
+        csv_path.write_text("name,age\nAlice,22", encoding="utf-8")
+
+        with pytest.raises(ValueError, match="Проверьте расширение файла"):
+            csv_to_json(str(csv_path), str(json_path))
+
+    def test_csv_to_json_empty_file(self, tmp_path):
+        """Негативный: пустой CSV файл → ValueError"""
+        csv_path = tmp_path / "empty.csv"
+        json_path = tmp_path / "output.json"
+
+        csv_path.write_text("", encoding="utf-8")
+
+        with pytest.raises(ValueError, match="В csv файле нет данных"):
+            csv_to_json(str(csv_path), str(json_path))
+
+
+class RoundTrip:
+    # туда сюда
+
+    def test_json_to_csv_to_json(self, tmp_path):
+        json1_path = SAMPLE_JSON_PATH
+        csv_path = tmp_path / "inter.csv"
+        json2_path = tmp_path / "final.json"
+
+        # JSON → CSV
+        json_to_csv(str(json1_path), str(csv_path))
+
+        # CSV → JSON
+        csv_to_json(str(csv_path), str(json2_path))
+
+        with open(json1_path, "r", encoding="utf-8") as f:
+            original_data = json.load(f)
+
+        with open(json2_path, "r", encoding="utf-8") as f:
+            final_data = json.load(f)
+
+        assert len(original_data) == len(final_data)
+
+        assert original_data == final_data
+
+    def test_csv_to_json_to_csv(self, tmp_path):
+        csv1_path = SAMPLE_CSV_PATH
+        json_path = tmp_path / "intermediate.json"
+        csv2_path = tmp_path / "final.csv"
+
+        csv_to_json(str(csv1_path), str(json_path))
+
+        json_to_csv(str(json_path), str(csv2_path))
+
+        with open(csv1_path, "r", encoding="utf-8", newline="") as f:
+            reader1 = csv.DictReader(f)
+            original_rows = list(reader1)
+
+        with open(csv2_path, "r", encoding="utf-8", newline="") as f:
+            reader2 = csv.DictReader(f)
+            final_rows = list(reader2)
+
+        assert len(original_rows) == len(final_rows)
+
+        assert original_rows == final_rows
+
+```
+
+
 # Лабораторная работа #6
 ## cli_text 
 ```python
