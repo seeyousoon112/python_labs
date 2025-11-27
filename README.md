@@ -249,9 +249,8 @@ class RoundTrip:
         assert len(original_rows) == len(final_rows)
 
         assert original_rows == final_rows
-
 ```
-
+![Картинка 1](./images/lab07/style.png)
 
 # Лабораторная работа #6
 ## cli_text 

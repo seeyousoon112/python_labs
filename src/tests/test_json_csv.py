@@ -168,3 +168,6 @@ class RoundTrip:
         assert len(original_rows) == len(final_rows)
 
         assert original_rows == final_rows
+
+
+# cd /Users/ksaveralexfold/Desktop/python_labs/src pip install -e ".[dev]"
