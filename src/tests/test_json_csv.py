@@ -57,7 +57,7 @@ class TestJsonToCsv:
 
         json_path.write_text("", encoding="utf-8")
 
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match='Файл пустой'):
             json_to_csv(str(json_path), str(csv_path))
 
     def test_json_to_csv_invalid_json(self, tmp_path):
