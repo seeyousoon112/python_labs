@@ -76,7 +76,7 @@ class Student:
     def __str__(self) -> str:
         return f"{self.fio} ({self.group}), {self.age()} лет, GPA {self.gpa:.2f}"
 ```
-![Картинка 1](./images/lab08/database.png)
+
 ## serialize
 ``` python
 import json
@@ -111,7 +111,9 @@ students = students_from_json('src/data/lab08/students_output.json')
 for student in students:
     print(student)
 ```
+![Картинка 1](./images/lab08/database.png)
 ![Картинка 2](./images/lab08/serialize.png)
+
 ## стиль
 ![Картинка 3](./images/lab08/blackk.png)
 
