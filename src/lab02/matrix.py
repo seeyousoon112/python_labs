@@ -1,29 +1,42 @@
-def f(matrix):
-    return [list(row) for row in zip(*matrix)]
+def transpose(mat: list[list[float or int]]) -> list[list]:
+    if len(mat) == 0:
+        return []
 
+    for row in mat:
+        if len(mat[0]) != len(row):
+            raise ValueError
 
-arr1 = [[1, 2, 3]]
-arr2 = [[1], [2], [3]]
-arr3 = [[1, 2], [3, 4]]
-print(f(arr3), f(arr2), f(arr1))
+    res = []
 
+    row_cnt = len(mat)
+    stolb_cnt = len(mat[0])
 
-def f(n):
-    res = [sum(x) for x in n]
+    for stolb_index in range(stolb_cnt):
+        new_row = []
+        for row_index in range(row_cnt):
+            new_row.append(mat[row_index][stolb_index])
+        res.append(new_row)
+
     return res
 
 
-arr1 = [[1, 2, 3], [4, 5, 6]]
-arr2 = [[-1, 1], [10, -10]]
+def row_sums(mat: list[list[float or int]]) -> list[float]:
 
-print(f(arr1), f(arr2))
+    for row in mat:
+        if len(mat[0]) != len(row):
+            raise ValueError
+
+    res = [sum(row) for row in mat]
+
+    return res
 
 
-def f(n):
-    return [sum(x) for x in zip(*n)]
+def col_sums(mat: list[list[float | int]]) -> list[float]:
 
+    for row in mat:
+        if len(mat[0]) != len(row):
+            raise ValueError
 
-arr1 = [[1, 2, 3], [4, 5, 6]]
-arr2 = [[-1, 1], [10, -10]]
-arr3 = [[0, 0], [0, 0]]
-print(f(arr1), f(arr2), f(arr3))
+    res = [sum(row) for row in zip(*mat)]
+
+    return res

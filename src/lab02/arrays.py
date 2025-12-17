@@ -1,36 +1,34 @@
-def f(n):
-    a = [x for x in n]
-    return min(a), max(a)
+def min_max(nums: list[float | int]) -> tuple[float | int, float | int]:
+
+    if len(nums) == 0:
+        raise ValueError
+
+    return (min(nums), max(nums))
 
 
-arr1 = [1.5, 2, -3.1]
-arr2 = [42]
-arr3 = [-5, -2, -9]
-arr4 = [1.5, 2, 2.0, -3.1]
-print(f(arr1), f(arr2), f(arr3), f(arr4))
+def unique_sorted(nums: list[float | int]) -> list[float | int]:
+
+    if len(nums) == 0:
+        return []
+
+    return sorted(set(nums))
 
 
-def f(n):
-    a = sorted(set(x for x in n))
-    return a
+def flatten(mat: list[list | tuple]) -> list:
 
-
-arr3 = [1.0, 1, 2.5, 2.5, 0]
-arr2 = [-1, -1, 0, 2, 2]
-arr1 = [3, 1, 2, 1, 3]
-
-print(f(arr1), f(arr2), f(arr3))
-
-
-def f(n):
     res = []
-    for x in n:
-        for y in x:
-            res += [y]
+
+    for element in mat:
+        if isinstance(element, list) or isinstance(element, tuple):
+            for inner_element in element:
+                res.append(inner_element)
+        else:
+            raise TypeError
+
     return res
 
 
-arr3 = [[1], [], [2, 3]]
-arr2 = [[1, 2], (3, 4, 5)]
-arr1 = [[1, 2], [3, 4]]
-print(f(arr1), f(arr2), f(arr3))
+print(flatten([[1, 2], [3, 4]]))
+print(flatten([[1, 2], (3, 4, 5)]))
+print(flatten([[1], [], [2, 3]]))
+print(flatten([[1, 2], "ab"]))
