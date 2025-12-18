@@ -1,5 +1,233 @@
 # python_labs
 
+# Лабораторная работа #10
+
+## A 
+```py 
+from collections import deque
+from typing import Any
+
+class Stack:
+    def __init__(self):
+        self._data: list[Any] = []
+
+    def push(self, item: Any) -> None:
+        self._data.append(item)
+
+    def pop(self) -> Any:
+        if self.is_empty():
+            raise IndexError("pop from empty stack")
+        return self._data.pop()
+
+    def peek(self) -> Any | None:
+        if self.is_empty():
+            return None
+        return self._data[-1]
+
+    def is_empty(self) -> bool:
+        return len(self._data) == 0
+
+    def __len__(self) -> int:
+        return len(self._data)
+    
+stack = Stack()
+print(f"1. Создан стек: {stack}")
+print(f"   Пустой? {stack.is_empty()}, Длина: {len(stack)}, Верх: {stack.peek()}")
+
+elements = [10, 20, 30, "текст", [1, 2]]
+for elem in elements:
+    stack.push(elem)
+    print(f"2. Добавили {elem}: {stack}")
+    print(f"   Верхний: {stack.peek()}, Длина: {len(stack)}")
+
+print("\n3. Извлекаем (LIFO порядок):")
+while not stack.is_empty():
+    item = stack.pop()
+    print(f"   Извлекли: {item}, Осталось: {len(stack)}, Верх: {stack.peek()}")
+
+print(f"\n4. Итог: {stack}, Пустой? {stack.is_empty()}")
+
+class Queue:
+    
+    def __init__(self):
+        self._data: deque[Any] = deque()
+
+    def enqueue(self, item: Any) -> None:
+        self._data.append(item)
+
+    def dequeue(self) -> Any:
+        if self.is_empty():
+            raise IndexError("dequeue from empty queue")
+        return self._data.popleft()
+
+    def peek(self) -> Any | None:
+        if self.is_empty():
+            return None
+        return self._data[0]
+
+    def is_empty(self) -> bool:
+        return len(self._data) == 0
+
+    def __len__(self) -> int:
+        return len(self._data)
+    
+q = Queue()
+print(f"1. Создана очередь: {q}")
+print(f"   Пустая? {q.is_empty()}, Длина: {len(q)}, Первый: {q.peek()}")
+
+elements = ["первый", "второй", "третий", 100, 200]
+for elem in elements:
+    q.enqueue(elem)
+    print(f"2. Добавили {elem}: {q}")
+    print(f"   Первый: {q.peek()}, Длина: {len(q)}")
+
+print("\n3. Извлекаем (FIFO порядок):")
+while not q.is_empty():
+    item = q.dequeue()
+    print(f"   Извлекли: {item}, Осталось: {len(q)}, Первый: {q.peek()}")
+
+print(f"\n4. Итог: {q}, Пустая? {q.is_empty()}")
+```
+![Картинка 1](./images/lab10/lab10_image.png)
+
+## B
+```py
+from typing import Any, Iterator, Optional
+
+class Node:
+    __slots__ = ("value", "next")
+
+    def __init__(self, value: Any, next: Optional["Node"] = None) -> None:
+        self.value = value
+        self.next = next
+
+    def __repr__(self) -> str:
+        return f"Node({self.value!r})"
+
+class SinglyLinkedList:
+
+    __slots__ = ("head", "tail", "_size")
+
+    def __init__(self, iterable=None) -> None:
+        self.head: Optional[Node] = None
+        self.tail: Optional[Node] = None
+        self._size: int = 0
+        if iterable:
+            for v in iterable:
+                self.append(v)
+
+    def append(self, value: Any) -> None:
+        node = Node(value)
+        if not self.head:
+            self.head = node
+            self.tail = node
+        else:
+            assert self.tail is not None
+            self.tail.next = node
+            self.tail = node
+        self._size += 1
+
+    def prepend(self, value: Any) -> None:
+        node = Node(value, next=self.head)
+        self.head = node
+        if self._size == 0:
+            self.tail = node
+        self._size += 1
+
+    def insert(self, idx: int, value: Any) -> None:
+        if idx < 0 or idx > self._size:
+            raise IndexError("insert index out of range")
+        if idx == 0:
+            self.prepend(value)
+            return
+        if idx == self._size:
+            self.append(value)
+            return
+
+        prev = self.head
+        for _ in range(idx - 1):
+            assert prev is not None
+            prev = prev.next
+        assert prev is not None
+        node = Node(value, next=prev.next)
+        prev.next = node
+        self._size += 1
+
+    def remove(self, value: Any) -> None:
+        prev: Optional[Node] = None
+        cur = self.head
+        idx = 0
+        while cur:
+            if cur.value == value:
+                if prev is None:
+                    self.head = cur.next
+                else:
+                    prev.next = cur.next
+                if cur is self.tail:
+                    self.tail = prev
+                self._size -= 1
+                return
+            prev, cur = cur, cur.next
+            idx += 1
+        raise ValueError("remove: value not found in SinglyLinkedList")
+
+    def remove_at(self, idx: int) -> None:
+        if idx < 0 or idx >= self._size:
+            raise IndexError("remove_at index out of range")
+        prev: Optional[Node] = None
+        cur = self.head
+        for _ in range(idx):
+            prev, cur = cur, cur.next
+        assert cur is not None
+        if prev is None:
+            self.head = cur.next
+        else:
+            prev.next = cur.next
+        if cur is self.tail:
+            self.tail = prev
+        self._size -= 1
+
+    def __iter__(self) -> Iterator[Any]:
+        cur = self.head
+        while cur:
+            yield cur.value
+            cur = cur.next
+
+    def __len__(self) -> int:
+        return self._size
+
+    def __repr__(self) -> str:
+        return f"SinglyLinkedList([{', '.join(repr(x) for x in self)}])"
+
+    def __str__(self) -> str:
+        parts = []
+        cur = self.head
+        while cur:
+            parts.append(f"[{cur.value!s}]")
+            cur = cur.next
+        parts.append("None")
+        return " -> ".join(parts)
+
+sll = SinglyLinkedList()
+print(f'Длина нашего односвязанного списка : {len(sll)}')
+
+sll.append(1)
+sll.append(2)
+sll.prepend(0)
+print(f'Наша ныняшняя длина списка после добавления эллементов : {len(sll)}') 
+print(f'Односвязаный список : {list(sll)}')
+
+sll.insert(1, 0.5)
+print(f'Длина списка после добавления на 1 индекс числа 0.5 : {len(sll)}')
+print(f'Односвязаный список : {list(sll)}')
+sll.append(52)
+print(f'Односвязанный список после добавления числа в конец : {list(sll)}')
+
+print(sll) 
+```
+![Картинка 1](./images/lab10/lab10_image2.png)
+
+
 # Лабораторная работа #9
 
 ## group
